@@ -1,9 +1,7 @@
 import logging
-import sys
-
 
 def get_logger(name: str):
-    logger = logging.StreamHandler()
+    logger = logging.getLogger(name)
     if not logger.handlers:
         handler = logging.StreamHandler()
         formatter = logging.Formatter("%(asctime)s | %(name)s | %(levelname)s | %(message)s")
