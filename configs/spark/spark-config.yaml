@@ -1,0 +1,14 @@
+spark:
+  app_name: MultiSourceRetailAnalytics
+  master: local[*]
+  iceberg:
+    warehouse: s3a://multiSourceRetail/warehouse
+    hive_metastore_uri: thrift://hive-metastore:9083
+  s3:
+    endpoint: http://minio:9000
+    access_key: minioadmin
+    secret_key: minioadmin
+  jars:
+    - org.apache.iceberg:iceberg-spark-runtime-4.0
+    - software.amazon.awssdk:bundle:2.25.16
+    - org.apache.hadoop:hadoop-aws:3.3.4
