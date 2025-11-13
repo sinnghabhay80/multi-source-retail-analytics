@@ -1,0 +1,10 @@
+n_records: 50000
+n_customers: 900
+n_products: 450
+min_quantity: 1
+max_quantity: 12
+min_price: 8.99
+max_price: 799.99
+date_range_days: 730
+output_format: csv
+seed: 12345
