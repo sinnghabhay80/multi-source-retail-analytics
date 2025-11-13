@@ -1,6 +1,6 @@
-n_records: 50000
-n_customers: 900
-n_products: 450
+n_records: 5000000
+n_customers: 10000
+n_products: 650
 min_quantity: 1
 max_quantity: 12
 min_price: 8.99
