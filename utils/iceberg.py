@@ -4,9 +4,14 @@ from utils.logger import get_logger
 
 logger = get_logger(__name__)
 
-def create_iceberg_table(sql: str):
+def read_sql_from_path(path):
+    with open(path) as f:
+        return f.read()
+
+def create_iceberg_table(sql_path: str):
     spark = get_spark_session()
     logger.info(f"Creating iceberg table: {sql}")
+    sql = read_sql_from_path(sql_path)
     spark.sql(sql)
     logger.info(f"Created Iceberg table: {sql.split()[5]}.")
 
