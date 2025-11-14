@@ -10,8 +10,8 @@ def read_sql_from_path(path):
 
 def create_iceberg_table(sql_path: str):
     spark = get_spark_session()
-    logger.info(f"Creating iceberg table: {sql}")
     sql = read_sql_from_path(sql_path)
+    logger.info(f"Creating iceberg table: {sql.split()[5]}")
     spark.sql(sql)
     logger.info(f"Created Iceberg table: {sql.split()[5]}.")
 
