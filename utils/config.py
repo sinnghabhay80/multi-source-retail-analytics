@@ -9,7 +9,7 @@ def get_project_root() -> Path:
     """
     current = Path(__file__).resolve()
 
-    for parent in [current.parent, current.parent.parent, current.parent.parent.parent]:
+    for parent in [current.parent, current.parent.parent, current.parent.parent.parent, current.parent.parent.parent.parent]:
         if (parent / ".git").exists():
             return parent
         if (parent / "docker").exists() and (parent / "scripts").exists():
