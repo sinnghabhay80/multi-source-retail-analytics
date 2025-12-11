@@ -1,11 +1,14 @@
 from pyspark.sql import DataFrame
 from utils.spark import get_spark_session
 from utils.logger import get_logger
+from utils.config import get_project_root
 
 logger = get_logger(__name__)
 
 def read_sql_from_path(path):
-    with open(path) as f:
+    project_root = get_project_root()
+    full_path = (project_root/path).resolve()
+    with open(full_path) as f:
         return f.read()
 
 def create_iceberg_table(sql_path: str):
