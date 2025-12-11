@@ -9,6 +9,6 @@ spark:
     access_key: minioadmin
     secret_key: minioadmin
   jars:
-    - org.apache.iceberg:iceberg-spark-runtime-4.0
+    - org.apache.iceberg:iceberg-spark-runtime-4.0_2.13:1.10.0
     - software.amazon.awssdk:bundle:2.25.16
     - org.apache.hadoop:hadoop-aws:3.3.4
