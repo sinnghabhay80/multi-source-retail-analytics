@@ -12,7 +12,15 @@ def read_sql_from_path(path):
     with open(full_path) as f:
         return f.read()
 
+def _execute_init(spark: SparkSession):
+    init_sql_path = "sql/init.sql"
+    init_sql = read_sql_from_path(init_sql_path)
+    for stmt in init_sql.split(";"):
+        if stmt.strip() != "": # for after last statement
+            spark.sql(stmt)
+
 def create_iceberg_table(sql_path: str, spark: SparkSession):
+    _execute_init(spark)
     sql = read_sql_from_path(sql_path)
     logger.info(f"Creating iceberg table: {sql.split()[5]}")
     spark.sql(sql)
