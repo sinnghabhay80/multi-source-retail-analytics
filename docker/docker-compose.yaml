@@ -1,0 +1,84 @@
+services:
+  minio:
+    image: minio/minio:latest
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000"  # MinIO API
+      - "9001:9001"  # MinIO Console (web UI)
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    volumes:
+      - minio-data:/data  # Persistent storage
+
+  hive-metastore-db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: metastore
+      POSTGRES_USER: hive
+      POSTGRES_PASSWORD: hive
+    volumes:
+      - hive-metastore-db:/var/lib/postgresql/data
+
+  hive-metastore:
+    build:
+      context: ..
+      dockerfile: docker/hive/Dockerfile
+    image: hive-custom:4.0.0
+    hostname: hive-metastore
+    environment:
+      SERVICE_NAME: metastore
+      DB_DRIVER: postgres
+      DB_HOST: hive-metastore-db
+      DB_PORT: 5432
+      DB_NAME: metastore
+      DB_USER: hive
+      DB_PASSWORD: hive
+      HIVE_METASTORE_WAREHOUSE_DIR: s3a://multisource-retail/warehouse
+    ports:
+      - "9083:9083"  # Metastore port for Spark/Trino
+    volumes:
+      - ../configs/hive/hadoop/core-site.xml:/opt/hadoop/etc/hadoop/core-site.xml
+      - ../configs/hive/hive-site.xml:/opt/hive/conf/hive-site.xml
+    depends_on:
+      - minio  # Wait for MinIO
+      - hive-metastore-db
+
+  spark:
+    build:
+      context: ..
+      dockerfile: docker/spark/Dockerfile
+    image: spark-custom:4.0.1
+    hostname: spark
+    command: sleep infinity
+    environment:
+      - SPARK_MODE=master
+      - PYSPARK_PYTHON=python3
+    ports:
+      - "4040:4040"
+      - "4041:4041"
+    volumes:
+      - ../scripts:/opt/scripts  # Mount scripts
+      - ../configs:/opt/configs # Mount configs
+      - ../utils:/opt/utils # Mount utils
+      - ../data:/opt/data # Mount data folder
+      - ../sql:/opt/sql # Mount sql folder
+      - ../configs/hive/hive-site.xml:/opt/spark/conf/hive-site.xml
+      - ../configs/hive/hadoop/core-site.xml:/opt/spark/conf/core-site.xml
+    depends_on:
+      - minio
+      - hive-metastore
+
+  trino:
+    image: trinodb/trino:428
+    hostname: trino
+    ports:
+      - "8080:8080"  # Trino web UI and query port
+    volumes:
+      - ../configs/trino/catalog:/etc/trino/catalog  # Mount Trino configs
+    depends_on:
+      - hive-metastore
+
+volumes: # Named volume for persistence
+  minio-data:
+  hive-metastore-db:
