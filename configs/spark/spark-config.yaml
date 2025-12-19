@@ -2,7 +2,7 @@ spark:
   app_name: MultiSourceRetailAnalytics
   master: local[*]
   iceberg:
-    warehouse: s3a://multiSourceRetail/warehouse
+    warehouse: s3a://multisource-retail/warehouse
     hive_metastore_uri: thrift://hive-metastore:9083
   s3:
     endpoint: http://minio:9000
