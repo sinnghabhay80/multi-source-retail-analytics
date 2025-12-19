@@ -1,5 +1,5 @@
-n_records: 5000000
-n_customers: 10000
+n_records: 50000
+n_customers: 1000
 n_products: 650
 min_quantity: 1
 max_quantity: 12
