@@ -1,0 +1,72 @@
+<configuration>
+  <property>
+    <name>fs.s3a.endpoint</name>
+    <value>http://minio:9000</value>
+  </property>
+
+  <property>
+    <name>fs.s3a.access.key</name>
+    <value>minioadmin</value>
+  </property>
+
+  <property>
+    <name>fs.s3a.secret.key</name>
+    <value>minioadmin</value>
+  </property>
+
+  <property>
+    <name>fs.s3a.path.style.access</name>
+    <value>true</value>
+  </property>
+
+  <property>
+    <name>fs.s3a.connection.timeout</name>
+    <value>60000</value>
+  </property>
+
+  <property>
+    <name>fs.s3a.connection.maximum</name>
+    <value>100</value>
+  </property>
+
+  <property>
+    <name>fs.s3a.impl</name>
+    <value>org.apache.hadoop.fs.s3a.S3AFileSystem</value>
+  </property>
+
+  <property>
+    <name>fs.s3a.aws.credentials.provider</name>
+    <value>org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider</value>
+  </property>
+
+  <property>
+    <name>fs.s3a.connection.establish.timeout</name>
+    <value>30000</value>
+  </property>
+
+  <property>
+    <name>fs.s3a.threads.keepalivetime</name>
+    <value>60000</value>
+  </property>
+
+  <property>
+    <name>fs.s3a.multipart.purge.age</name>
+    <value>86400000</value>
+  </property>
+
+  <property>
+    <name>fs.s3a.connection.ttl</name>
+    <value>300000</value>
+  </property>
+
+  <property>
+    <name>fs.s3a.retry.interval</name>
+    <value>500</value>
+  </property>
+
+  <property>
+    <name>fs.s3a.retry.throttle.interval</name>
+    <value>100</value>
+  </property>
+
+</configuration>
