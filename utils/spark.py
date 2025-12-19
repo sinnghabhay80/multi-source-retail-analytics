@@ -7,16 +7,21 @@ def get_spark_session(config_path: str = "configs/spark/spark-config.yaml"):
     spark = SparkSession.builder\
             .appName(config['app_name'])\
             .master(config['master'])\
-            .config("spark.sql.catalog.hive", "org.apache.iceberg.spark.SparkCatalog")\
-            .config("spark.sql.catalog.hive.type", "hive")\
-            .config("spark.sql.catalog.hive.uri", config['iceberg']['hive_metastore_uri'])\
+            .config("spark.sql.catalog.hive_iceberg", "org.apache.iceberg.spark.SparkCatalog")\
+            .config("spark.sql.catalog.hive_iceberg.type", "hive")\
+            .config("spark.sql.catalog.hive_iceberg.uri", config['iceberg']['hive_metastore_uri'])\
             .config("spark.sql.extensions", "org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions")\
-            .config("spark.sql.catalog.hive.warehouse", config['iceberg']['warehouse'])\
-            .config("spark.jars.packages", ",".join(config['jars']))\
             .config("spark.hadoop.fs.s3a.endpoint", config['s3']['endpoint'])\
             .config("spark.hadoop.fs.s3a.access.key", config['s3']['access_key'])\
             .config("spark.hadoop.fs.s3a.secret.key", config['s3']['secret_key'])\
-            .config("spark.hadoop.fs.s3a.path.style.access", "true")\
+            .config("spark.hadoop.fs.s3a.path.style.access", "true") \
+            .config("spark.sql.iceberg.compression-codec", "snappy") \
+            .config("spark.driver.memory", "4g") \
+            .config("spark.executor.memory", "4g") \
+            .config("spark.sql.iceberg.write.parquet.row-group-size-bytes", 32 * 1024 * 1024) \
+            .config("spark.sql.parquet.enableVectorizedWriter", "false") \
+            .config("spark.sql.shuffle.partitions", "16") \
+            .config("spark.sql.iceberg.write.distribution-mode","none") \
             .getOrCreate()
 
     return spark
