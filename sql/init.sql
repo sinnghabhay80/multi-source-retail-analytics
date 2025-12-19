@@ -1,0 +1,3 @@
+CREATE NAMESPACE IF NOT EXISTS hive_iceberg.bronze;
+CREATE NAMESPACE IF NOT EXISTS hive_iceberg.silver;
+CREATE NAMESPACE IF NOT EXISTS hive_iceberg.gold;
