@@ -75,7 +75,7 @@ class SalesDataGenerator:
         """Save DataFrame to disk."""
         project_root = get_project_root()
         full_path = (project_root / self.OUTPUT_DIR).resolve()
-        full_path.parent.mkdir(parents=True, exist_ok=True)
+        full_path.mkdir(parents=True, exist_ok=True)
         if self.config["output_format"] == "csv":
             date_str = datetime.now().strftime("%Y%m%d%H%m%s")
             suffix = "csv"
