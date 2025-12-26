@@ -50,7 +50,9 @@ services:
       dockerfile: docker/spark/Dockerfile
     image: spark-custom:4.0.1
     hostname: spark
-    command: sleep infinity
+    user: root
+    command: >
+      sh -c "chown -R spark:spark /opt/data && exec su spark -c 'sleep infinity'"
     environment:
       - SPARK_MODE=master
       - PYSPARK_PYTHON=python3
