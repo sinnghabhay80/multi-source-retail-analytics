@@ -66,10 +66,10 @@ class SalesDataGenerator:
             ]
         }
 
-        df = pd.DataFrame(data)
-        df = df.astype(self.SCHEMA)
+        df_sales = pd.DataFrame(data)
+        df_sales = df_sales.astype(self.SCHEMA)
         logger.info(f"Generated {n} sales records...")
-        return df
+        return df_sales
 
     def save(self, df: pd.DataFrame) -> None:
         """Save DataFrame to disk."""
