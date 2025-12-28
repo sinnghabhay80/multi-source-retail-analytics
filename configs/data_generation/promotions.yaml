@@ -1,0 +1,7 @@
+n_campaigns: 20
+min_discount: 10.0
+max_discount: 50.0
+min_duration_days: 7
+max_duration_days: 45
+output_format: csv
+seed: 777
