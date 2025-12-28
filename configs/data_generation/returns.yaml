@@ -1,0 +1,4 @@
+return_rate: 0.08
+max_days_after_purchase: 30
+output_format: csv
+seed: 999
