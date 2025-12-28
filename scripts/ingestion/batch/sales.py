@@ -24,8 +24,7 @@ def main():
                         .option("header", "true")\
                         .option("inferSchema", "true")\
                         .load(str(full_path))\
-                        .withColumn("_ingestion_time", current_timestamp()) \
-                        .repartition(16, to_date(col("order_date")))
+                        .withColumn("_ingestion_time", current_timestamp())
 
     write_iceberg_table(bronze_sales_df, table_name)
     logger.info(f"Bronze Table: {table_name} loaded → {bronze_sales_df.count():,} rows.")
