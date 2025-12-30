@@ -16,13 +16,13 @@ def main():
 
     bronze = spark.table(source_table)
     silver = bronze.filter((col("quantity") > 0) & (col("price") > 0)) \
-        .withColumn("total_amount", round(col("quantity") * col("price"), 2)) \
-        .withColumn("order_date", to_date("order_date"))  \
-        .withColumn("is_valid", lit(True)) \
-        .select(
-            "order_id", "customer_id", "product_id", "quantity", "price",
-            "total_amount", "order_date", "is_valid", "_ingestion_time"
-        )
+                    .withColumn("total_amount", round(col("quantity") * col("price"), 2)) \
+                    .withColumn("order_date", to_date("order_date"))  \
+                    .withColumn("is_valid", lit(True)) \
+                    .select(
+                        "order_id", "customer_id", "product_id", "quantity", "price",
+                        "total_amount", "order_date", "is_valid", "_ingestion_time"
+                    )
 
     write_iceberg_table(silver, target_table)
     logger.info(f"Silver table {target_table} created → {silver.count():,} valid rows")
