@@ -1,7 +1,7 @@
 from utils.spark import get_spark_session
 from utils.logger import get_logger
 from utils.iceberg import create_iceberg_table, write_iceberg_table
-from pyspark.sql.functions import col, round, to_date, lit, when
+from pyspark.sql.functions import col, to_date, when
 
 logger = get_logger(__name__)
 
