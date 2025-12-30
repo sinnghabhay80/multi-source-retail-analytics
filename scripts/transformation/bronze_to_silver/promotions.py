@@ -1,7 +1,7 @@
 from utils.spark import get_spark_session
 from utils.logger import get_logger
 from utils.iceberg import create_iceberg_table, write_iceberg_table
-from pyspark.sql.functions import col, to_date, datediff, when
+from pyspark.sql.functions import col, to_date, datediff, when, current_timestamp
 
 logger = get_logger(__name__)
 
@@ -22,6 +22,7 @@ def main():
                                 when((col("start_date") < col("end_date")) &
                                        (col("discount_pct").between(5, 50)), True)
                                  .otherwise(False)) \
+                    .withColumn("_ingestion_time", current_timestamp()) \
                     .select(
                         "promo_id", "promo_name", "discount_pct", "start_date", "end_date",
                         "target_segment", "status", "duration_days", "is_valid", "_ingestion_time"

@@ -1,7 +1,7 @@
 from utils.spark import get_spark_session
 from utils.logger import get_logger
 from utils.iceberg import create_iceberg_table, write_iceberg_table
-from pyspark.sql.functions import col, to_date, when
+from pyspark.sql.functions import col, to_date, when, current_timestamp
 
 logger = get_logger(__name__)
 
@@ -25,6 +25,7 @@ def main():
                                                  col("sales.order_id").isNotNull() &
                                                  col("return_reason").isin("Defective", "Wrong size", "Not as described"), True)
                                             .otherwise(False)) \
+                    .withColumn("_ingestion_time", current_timestamp()) \
                     .select(
                         "return_id", "order_id", "customer_id", "product_id",
                         "return_date", "return_reason", "return_value", "is_valid", "_ingestion_time"
