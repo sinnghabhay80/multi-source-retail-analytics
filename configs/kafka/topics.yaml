@@ -1,0 +1,15 @@
+kafka:
+  bootstrap_servers: kafka:9092
+  topics:
+    clickstream:
+      partitions: 1
+      replication_factor: 1
+      messages_per_second: 10
+      run_duration_seconds: 60
+      seed: 123
+    offers:
+      partitions: 1
+      replication_factor: 1
+      messages_per_second: 5
+      run_duration_seconds: 60
+      seed: 456
