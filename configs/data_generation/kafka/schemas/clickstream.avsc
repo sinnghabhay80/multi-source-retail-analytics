@@ -1,0 +1,50 @@
+{
+  "type": "record",
+  "name": "ClickstreamEvent",
+  "namespace": "retail360",
+  "fields": [
+    {
+      "name": "event_id",
+      "type": "string",
+      "doc": "Unique event UUID"
+    },
+    {
+      "name": "user_id",
+      "type": "string",
+      "doc": "User identifier"
+    },
+    {
+      "name": "session_id",
+      "type": "string",
+      "doc": "Session identifier"
+    },
+    {
+      "name": "page_url",
+      "type": "string",
+      "doc": "URL of the page"
+    },
+    {
+      "name": "event_type",
+      "type": {
+        "type": "enum",
+        "name": "EventType",
+        "symbols": ["view", "click", "add_to_cart", "purchase"]
+      },
+      "doc": "Type of user event"
+    },
+    {
+      "name": "event_time",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      },
+      "doc": "Event timestamp (milliseconds since epoch)"
+    },
+    {
+      "name": "device_type",
+      "type": ["null", "string"],
+      "default": null,
+      "doc": "Device type (optional)"
+    }
+  ]
+}
