@@ -3,7 +3,7 @@ from utils.logger import get_logger
 from utils.iceberg import create_iceberg_table, write_iceberg_table
 from pyspark.sql.functions import col, to_date, datediff, when, current_timestamp
 
-logger = get_logger(__name__)
+logger = get_logger("SilverPromoIngestion")
 
 def main():
     spark = get_spark_session()

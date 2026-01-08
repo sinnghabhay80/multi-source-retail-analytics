@@ -3,7 +3,7 @@ from utils.logger import get_logger
 from utils.iceberg import create_iceberg_table, write_iceberg_table
 from pyspark.sql.functions import col, current_timestamp, sum, avg, when, round, lit, row_number, explode, sequence
 
-logger = get_logger(__name__)
+logger = get_logger("GoldPromoRevenueAggregation")
 
 def main():
     spark = get_spark_session()

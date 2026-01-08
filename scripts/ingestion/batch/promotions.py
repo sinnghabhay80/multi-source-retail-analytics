@@ -5,7 +5,7 @@ from utils.iceberg import create_iceberg_table, write_iceberg_table
 
 from pyspark.sql.functions import current_timestamp, col, to_date
 
-logger = get_logger(__name__)
+logger = get_logger("BronzePromoIngestion")
 
 
 def main():
