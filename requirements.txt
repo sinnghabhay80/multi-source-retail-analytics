@@ -1,4 +1,11 @@
 pandas
 numpy
 pyyaml
-kafka-python
+confluent-kafka
+certifi
+httpx
+authlib
+jsonschema
+cachetools
+avro
+fastavro
