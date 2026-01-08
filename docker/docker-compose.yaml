@@ -9,7 +9,7 @@ services:
       MINIO_ROOT_USER: minioadmin
       MINIO_ROOT_PASSWORD: minioadmin
     volumes:
-      - minio-data:/data  # Persistent storage
+      - minio-data:/data
 
   hive-metastore-db:
     image: postgres:15
@@ -90,6 +90,9 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
+    volumes:
+      - zookeeper-data:/var/lib/zookeeper/data
+      - zookeeper-logs:/var/lib/zookeeper/log
 
   kafka:
       image: confluentinc/cp-kafka:7.3.0
@@ -110,6 +113,9 @@ services:
         KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
         KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
         KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+        KAFKA_LOG_DIRS: /var/lib/kafka/data
+      volumes:
+        - kafka-data:/var/lib/kafka/data
 
   schema-registry:
     image: confluentinc/cp-schema-registry:7.3.0
@@ -127,3 +133,6 @@ services:
 volumes: # Named volume for persistence
   minio-data:
   hive-metastore-db:
+  zookeeper-data:
+  zookeeper-logs:
+  kafka-data:
