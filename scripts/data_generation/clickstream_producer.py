@@ -8,10 +8,8 @@ import uuid
 from pathlib import Path
 from datetime import datetime
 from avro.schema import parse
-from confluent_kafka import Producer, KafkaError
-from confluent_kafka.admin import AdminClient, NewTopic
+from confluent_kafka import Producer
 from confluent_kafka.schema_registry import SchemaRegistryClient
-from confluent_kafka.schema_registry import Schema
 from confluent_kafka.schema_registry.avro import AvroSerializer
 from confluent_kafka.serialization import SerializationContext, MessageField
 from utils.config import get_project_root, load_config
