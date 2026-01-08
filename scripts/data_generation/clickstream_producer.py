@@ -14,9 +14,9 @@ from confluent_kafka.schema_registry import SchemaRegistryClient
 from confluent_kafka.schema_registry import Schema
 from confluent_kafka.schema_registry.avro import AvroSerializer
 from confluent_kafka.serialization import SerializationContext, MessageField
-from utils.config import get_project_root
-from utils.config import load_config
+from utils.config import get_project_root, load_config
 from utils.logger import get_logger
+from utils.kafka import ensure_topic, register_schema, delivery_report
 
 logger = get_logger(__name__)
 
@@ -35,7 +35,7 @@ class ClickStreamDataGenerator:
         self.bootstrap_servers = self.config.get("bootstrap_servers", "kafka:9092")
         self.sr_url = "http://schema-registry:8081"
 
-        self._ensure_topic()
+        ensure_topic(self.bootstrap_servers, self.topic, self.config)
         self.sr_client = SchemaRegistryClient({'url': self.sr_url})
 
         project_root = get_project_root()
@@ -44,57 +44,13 @@ class ClickStreamDataGenerator:
         with open(full_schema_path, "r") as f:
             self.schema_str = f.read()
 
-        self.schema_id = self._register_schema()
+        self.schema_id = register_schema(self.sr_client, self.topic, self.schema_str)
         self.avro_serializer = AvroSerializer(self.sr_client, self.schema_str)
         self.producer = Producer({
             'bootstrap.servers': self.bootstrap_servers,
             'acks': 'all'
         })
         logger.info(f"ClickstreamProducer ready → topic: {self.topic}, schema ID: {self.schema_id}...")
-
-    def _ensure_topic(self):
-        """Create topic if it doesn't exist."""
-        admin = AdminClient({'bootstrap.servers': self.bootstrap_servers})
-        topics = admin.list_topics().topics
-        if self.topic not in topics:
-            logger.info(f"Topic {self.topic} not found → creating...")
-            new_topic = NewTopic(
-                self.topic,
-                num_partitions=self.config["topics"][self.topic]["partitions"],
-                replication_factor=self.config["topics"][self.topic]["replication_factor"]
-            )
-            fs = admin.create_topics([new_topic])
-            for topic, f in fs.items():
-                try:
-                    f.result()
-                    logger.info(f"Topic {topic} created...")
-                except Exception as e:
-                    logger.error(f"Failed to create {topic}: {e}...")
-        else:
-            logger.info(f"Topic {self.topic} already exists...")
-
-    def _register_schema(self):
-        """Register Avro schema if not already present."""
-        subject = f"{self.topic}-value"
-        try:
-            registered = self.sr_client.get_latest_version(subject)
-            if registered.schema.schema_str == self.schema_str:
-                logger.info(f"Schema already registered for {subject} (ID: {registered.id})...")
-                return registered.id
-        except Exception:
-            pass  # Not registered
-
-        logger.info(f"Registering new schema for {subject}...")
-        schema_id = self.sr_client.register_schema(subject, Schema(self.schema_str))
-        logger.info(f"Schema registered → ID: {schema_id}...")
-        return schema_id
-
-    def _delivery_report(self, err, msg):
-        """Delivery callback."""
-        if err is not None:
-            logger.error(f"Delivery failed: {err}")
-        else:
-            logger.debug(f"Delivered to {msg.topic()} [{msg.partition()}]")
 
     def generate_event(self):
         """Generate one realistic clickstream event."""
@@ -119,7 +75,7 @@ class ClickStreamDataGenerator:
                 self.producer.produce(
                     topic=self.topic,
                     value=serialized,
-                    callback=self._delivery_report
+                    callback=delivery_report
                 )
                 logger.info(f"Sent event: {event['event_id']}...")
             except Exception as e:

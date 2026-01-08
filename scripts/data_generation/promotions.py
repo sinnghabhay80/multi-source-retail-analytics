@@ -9,8 +9,7 @@ import numpy as np
 from datetime import datetime, timedelta
 from pathlib import Path
 from utils.logger import get_logger
-from utils.config import load_config
-from utils.config import get_project_root
+from utils.config import load_config, get_project_root
 
 logger = get_logger(__name__)
 
