@@ -1,8 +1,5 @@
 from pyspark.sql import SparkSession
 from utils.config import load_config
-from utils.logger import get_logger
-
-logger = get_logger("SparkUtils")
 
 def get_spark_session(config_path: str = "configs/spark/spark-config.yaml"):
     config = load_config(config_path)["spark"]
@@ -26,7 +23,5 @@ def get_spark_session(config_path: str = "configs/spark/spark-config.yaml"):
             .config("spark.sql.shuffle.partitions", "16") \
             .config("spark.sql.iceberg.write.distribution-mode","none") \
             .getOrCreate()
-
-    logger.info(f"Spark session: {spark.version} started...")
 
     return spark

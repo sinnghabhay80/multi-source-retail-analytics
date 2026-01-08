@@ -18,7 +18,7 @@ from utils.config import get_project_root, load_config
 from utils.logger import get_logger
 from utils.kafka import ensure_topic, register_schema, delivery_report
 
-logger = get_logger("ClickStreamDataGenerator")
+logger = get_logger(__name__)
 
 class ClickStreamDataGenerator:
     """Generates and sends real-time clickstream events to Kafka."""

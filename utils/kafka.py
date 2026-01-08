@@ -4,7 +4,7 @@ from confluent_kafka.schema_registry import SchemaRegistryClient
 from confluent_kafka.schema_registry import Schema
 from utils.logger import get_logger
 
-logger = get_logger("KafkaUtils")
+logger = get_logger(__name__)
 
 
 def ensure_topic(bootstrap_servers: str, topic: str, config: Dict):
