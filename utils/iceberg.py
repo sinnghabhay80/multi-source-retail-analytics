@@ -4,7 +4,7 @@ from utils.config import get_project_root
 
 from pyspark.sql import SparkSession
 
-logger = get_logger(__name__)
+logger = get_logger("IcebergUtils")
 
 def read_sql_from_path(path):
     project_root = get_project_root()

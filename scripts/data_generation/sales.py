@@ -11,7 +11,7 @@ from pathlib import Path
 from utils.logger import get_logger
 from utils.config import load_config, get_project_root
 
-logger = get_logger(__name__)
+logger = get_logger("SalesDataGenerator")
 
 class SalesDataGenerator:
     """Generates synthetic sales data with schema enforcement."""
