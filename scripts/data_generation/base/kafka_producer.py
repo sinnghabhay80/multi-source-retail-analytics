@@ -12,7 +12,7 @@ from confluent_kafka.serialization import SerializationContext, MessageField
 from utils.config import get_project_root, load_config
 from utils.logger import get_logger
 
-logger = get_logger("KafakGenericProducer")
+logger = get_logger("KafkaGenericProducer")
 
 class KafkaGenericProducer:
     """Kafka Generic Producer Class."""
@@ -107,7 +107,7 @@ class KafkaGenericProducer:
                     value=serialized,
                     callback=self._delivery_report
                 )
-                logger.info(f"Sent event: {event['event_id']}...")
+                logger.info(f"Sent event: {serialized}...")
             except Exception as e:
                 logger.error(f"Failed to send: {e}...")
             time.sleep(interval)

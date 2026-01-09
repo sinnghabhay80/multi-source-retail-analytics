@@ -1,0 +1,44 @@
+{
+  "type": "record",
+  "name": "OfferEvent",
+  "namespace": "retail360",
+  "fields": [
+    {
+      "name": "offer_id",
+      "type": "string",
+      "doc": "Unique offer UUID"
+    },
+    {
+      "name": "user_id",
+      "type": "string",
+      "doc": "User receiving the offer"
+    },
+    {
+      "name": "promo_id",
+      "type": "string",
+      "doc": "Promotion this offer is tied to"
+    },
+    {
+      "name": "discount_pct",
+      "type": "double",
+      "doc": "Discount percentage"
+    },
+    {
+      "name": "offer_time",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      },
+      "doc": "Offer issuance timestamp (milliseconds)"
+    },
+    {
+      "name": "status",
+      "type": {
+        "type": "enum",
+        "name": "OfferStatus",
+        "symbols": ["sent", "viewed", "accepted", "expired"]
+      },
+      "doc": "Current offer status"
+    }
+  ]
+}
