@@ -1,18 +1,14 @@
 """
 Kafka Clickstream Producer – generates real-time user events
 """
-import sys
-import json
 import time
 import uuid
-from pathlib import Path
-from datetime import datetime
 from utils.logger import get_logger
-from scripts.data_generation.base.kafka_producer import KafakGenericProducer
+from scripts.data_generation.base.kafka_producer import KafkaGenericProducer
 
 logger = get_logger("ClickStreamDataGenerator")
 
-class ClickStreamDataGenerator(KafakGenericProducer):
+class ClickStreamDataGenerator(KafkaGenericProducer):
     """Generates and sends real-time clickstream events to Kafka."""
     SCHEMA_PATH = "configs/data_generation/kafka/schemas/clickstream.avsc"
 

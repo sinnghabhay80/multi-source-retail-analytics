@@ -1,6 +1,7 @@
 services:
   minio:
     image: minio/minio:latest
+    container_name: minio
     command: server /data --console-address ":9001"
     ports:
       - "9000:9000"  # MinIO API
@@ -13,6 +14,7 @@ services:
 
   hive-metastore-db:
     image: postgres:15
+    container_name: hive-metastore-db
     environment:
       POSTGRES_DB: metastore
       POSTGRES_USER: hive
@@ -26,6 +28,7 @@ services:
       dockerfile: docker/hive/Dockerfile
     image: hive-custom:4.0.0
     hostname: hive-metastore
+    container_name: hive-metastore
     environment:
       SERVICE_NAME: metastore
       DB_DRIVER: postgres
@@ -50,6 +53,7 @@ services:
       dockerfile: docker/spark/Dockerfile
     image: spark-custom:4.0.1
     hostname: spark
+    container_name: spark
     user: root
     command: >
       sh -c "chown -R spark:spark /opt/data && exec su spark -c 'sleep infinity'"
@@ -74,6 +78,7 @@ services:
   trino:
     image: trinodb/trino:428
     hostname: trino
+    container_name: trino
     ports:
       - "8080:8080"  # Trino web UI and query port
     volumes:

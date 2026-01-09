@@ -1,12 +1,7 @@
 """
 Kafka Generic Producer Class
 """
-import sys
-import json
 import time
-import uuid
-from pathlib import Path
-from datetime import datetime
 from avro.schema import parse
 from confluent_kafka import Producer, KafkaError
 from confluent_kafka.admin import AdminClient, NewTopic
@@ -19,7 +14,7 @@ from utils.logger import get_logger
 
 logger = get_logger("KafakGenericProducer")
 
-class KafakGenericProducer:
+class KafkaGenericProducer:
     """Kafka Generic Producer Class."""
     CONFIG_PATH = "configs/data_generation/kafka/topics.yaml"
     SCHEMA_PATH = None
@@ -31,8 +26,8 @@ class KafakGenericProducer:
         default_config = load_config(self.CONFIG_PATH).get("kafka", {})
         self.config.update(default_config)  # We'll use default_config(what we have in configs)
         self.topic = topic
-        self.bootstrap_servers = self.config.get("bootstrap_servers", "kafka:9092")
-        self.sr_url = "http://schema-registry:8081"
+        self.bootstrap_servers = self.config.get("bootstrap_servers")
+        self.sr_url = self.config.get("schema_registry_url")
 
         self._ensure_topic()
         self.sr_client = SchemaRegistryClient({'url': self.sr_url})
