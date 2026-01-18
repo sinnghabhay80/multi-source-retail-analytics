@@ -10,7 +10,7 @@ logger = get_logger("OffersDataGenerator")
 
 class OffersDataGenerator(KafkaGenericProducer):
     """Generates and sends real-time offers to Kafka."""
-    SCHEMA_PATH = "configs/data_generation/kafka/schemas/offers.avsc"
+    SCHEMA_PATH = "configs/kafka/schemas/offers.avsc"
 
     def generate_event(self):
         """Generate one realistic offer event."""

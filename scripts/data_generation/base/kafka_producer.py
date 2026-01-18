@@ -16,7 +16,7 @@ logger = get_logger("KafkaGenericProducer")
 
 class KafkaGenericProducer:
     """Kafka Generic Producer Class."""
-    CONFIG_PATH = "configs/data_generation/kafka/topics.yaml"
+    CONFIG_PATH = "configs/kafka/topics.yaml"
     SCHEMA_PATH = None
 
     def __init__(self, topic: str, config=None, schema=None):

@@ -10,7 +10,7 @@ logger = get_logger("ClickStreamDataGenerator")
 
 class ClickStreamDataGenerator(KafkaGenericProducer):
     """Generates and sends real-time clickstream events to Kafka."""
-    SCHEMA_PATH = "configs/data_generation/kafka/schemas/clickstream.avsc"
+    SCHEMA_PATH = "configs/kafka/schemas/clickstream.avsc"
 
     def generate_event(self):
         """Generate one realistic clickstream event."""
